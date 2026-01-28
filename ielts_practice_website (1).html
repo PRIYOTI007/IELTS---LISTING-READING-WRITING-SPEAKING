@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Free IELTS Practice Website</title>
+<style>
+body {font-family: Arial, sans-serif; background:#f4f6f8; margin:0; padding:0;}
+header {background:#0d47a1; color:white; padding:15px; text-align:center;}
+section {padding:20px;}
+.card {background:white; padding:15px; margin-bottom:15px; border-radius:8px; box-shadow:0 0 5px rgba(0,0,0,0.1);} 
+button {padding:8px 12px; background:#1976d2; color:white; border:none; border-radius:5px; cursor:pointer;}
+input, textarea {width:100%; padding:8px; margin-top:5px;}
+footer {background:#0d47a1; color:white; text-align:center; padding:10px;}
+</style>
+</head>
+<body>
+<header>
+<h1>Free IELTS Practice Website</h1>
+<p>Listening • Reading • Writing • Speaking</p>
+</header>
+
+<section class="card">
+<h2>Add New Question</h2>
+<label>Question Type:</label>
+<select id="type">
+<option>Listening</option>
+<option>Reading</option>
+<option>Writing</option>
+<option>Speaking</option>
+</select>
+
+<label>Question:</label>
+<textarea id="question"></textarea>
+
+<label>Upload Audio (Listening only):</label>
+<input type="file" id="audio" accept="audio/*">
+
+<button onclick="addQuestion()">Add Question</button>
+</section>
+
+<section class="card">
+<h2>Questions</h2>
+<div id="questions"></div>
+</section>
+
+<footer>
+<p>© 2026 Free IELTS Practice Platform</p>
+</footer>
+
+<script>
+let questions = [];
+
+function addQuestion(){
+ let type = document.getElementById('type').value;
+ let questionText = document.getElementById('question').value;
+ let audioFile = document.getElementById('audio').files[0];
+
+ if(questionText === ''){alert('Enter a question'); return;}
+
+ let q = {type, questionText, audioFile};
+ questions.push(q);
+ displayQuestions();
+}
+
+function displayQuestions(){
+ let div = document.getElementById('questions');
+ div.innerHTML = '';
+
+ questions.forEach((q,index)=>{
+ let html = `<div class='card'><h3>${q.type} Question</h3><p>${q.questionText}</p>`;
+ if(q.audioFile){
+ let url = URL.createObjectURL(q.audioFile);
+ html += `<audio controls src='${url}'></audio>`;
+ }
+ html += `</div>`;
+ div.innerHTML += html;
+ });
+}
+</script>
+</body>
+</html>
